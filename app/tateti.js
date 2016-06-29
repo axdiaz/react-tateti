@@ -4,7 +4,7 @@ import React from 'react';
 class Caja extends React.Component {
     constructor(props){
       super();
-    
+
     }
 
     click() {
@@ -27,9 +27,9 @@ class Caja extends React.Component {
         ButtonclassName=ButtonclassName+"success disabled"
       }
     }
-   
+
       return (
-      
+
         <button className={ButtonclassName} onClick={this.click.bind(this)} type="submit">{this.props.valor}</button>
       )
 
@@ -37,7 +37,7 @@ class Caja extends React.Component {
 
 }
 
-  
+
 
 
 
@@ -53,14 +53,34 @@ class Tateti extends React.Component {
     }
 
     Juego(pos){
-     // console.log(this.state.[celda;props]);
-      // this.state.celda[props] = 'o';
       console.log(pos);
       var celdaM = this.state.celda;
       if(celdaM[pos] == '?') {
         celdaM[pos]=this.state.jugador;
-      
+
         let jugadorM;
+
+        //Código para verificar si algún jugador ganó
+        //calculo que columna y fila se modifico y me fijo si hay tatei en alguna
+        let columna = pos % 3;
+        let fila = Math.floor(pos / 3) * 3;
+
+        if(celdaM[columna] == celdaM[columna+3] && celdaM[columna] == celdaM[columna+6] )
+          console.log('1 gano el jugador '+this.state.jugador);
+        else {
+          if(celdaM[fila] == celdaM[fila+1] && celdaM[fila] == celdaM[fila+2] )
+            console.log('2 gano el jugador '+this.state.jugador);
+          else {
+              if(celdaM[0]==celdaM[4] && celdaM[0]==celdaM[8] && celdaM[4] != '?')
+                console.log('3 gano el jugador '+this.state.jugador);
+              else {
+                if(celdaM[2]==celdaM[4] && celdaM[2]==celdaM[6] && celdaM[4] != '?')
+                console.log('4 gano el jugador '+this.state.jugador);
+              }
+          }
+        }
+        //Fin del código de verificación de quién ganó
+
         if(this.state.jugador == 'x')
           jugadorM = 'o';
         else
@@ -70,14 +90,14 @@ class Tateti extends React.Component {
             celda: celdaM
           });
       }
-      
+
     }
 
     render(){
-      
+
         return (
 
-          <div className="container">  
+          <div className="container">
       <div className="row">
         <div className="col-xs-12">
           <div className="center-block game-container">
@@ -86,14 +106,14 @@ class Tateti extends React.Component {
                 <h1>React - Tic Tac Toe</h1>
               </div>
             </div>
-            
+
             <div className="row board-container">
               <div className="col-xs-12">
                 <div className={"row"}>
                   <div className={"col-xs-4 game-cell"}>
                     <Caja onClickHandler={this.Juego.bind(this)} valor={this.state.celda[0]} pos={0} />
 
-                                             
+
                   </div>
                   <div className="col-xs-4 game-cell">
                     <Caja onClickHandler={this.Juego.bind(this)} valor={this.state.celda[1]} pos={1} />
@@ -136,9 +156,8 @@ class Tateti extends React.Component {
     </div>
         )
 
-    
+
     }
 }
 
 export default Tateti
-
